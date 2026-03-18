@@ -1,4 +1,4 @@
-# 🔥 Level 1 — TBH Heater: PV Surplus Utilization
+# 🔥 Level 1 — TBH Heater: PV to DHW
 
 ## Description
 
@@ -94,7 +94,7 @@ Every minute check:
 
 ## Automation File
 
-→ [`level1_tbh_grzalka.yaml`](level1_tbh_grzalka.yaml)
+→ [`level1_tbh.yaml`](level1_tbh.yaml)
 
 ### Installation
 
