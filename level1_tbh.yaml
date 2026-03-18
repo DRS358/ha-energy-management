@@ -1,0 +1,79 @@
+alias: "TBH Heater — PV Surplus + Full Battery"
+description: >
+  Turns on the heater when battery is full and PV has surplus.
+  Turns off only after 5 minutes of conditions not being met.
+  Does not turn on when water temperature > 70°C.
+mode: single
+triggers:
+  - minutes: /1
+    trigger: time_pattern
+actions:
+  - choose:
+      # ── TURN ON when heater is OFF and all conditions met ──
+      - conditions:
+          - condition: state
+            entity_id: switch.tbh_grzalka_odwrocony
+            state: "off"
+          - condition: numeric_state
+            entity_id: sensor.deye_sun_12k_battery
+            above: 98
+          - condition: numeric_state
+            entity_id: sensor.deye_sun_12k_microinverter_power
+            above: 3000
+          - condition: numeric_state
+            entity_id: sensor.deye_sun_12k_grid_power
+            below: -2800
+          - condition: numeric_state
+            entity_id: sensor.heatpump_water_tank_temperature_t5
+            below: 70
+        sequence:
+          - target:
+              entity_id: switch.tbh_grzalka_odwrocony
+            action: switch.turn_on
+
+      # ── KEEP ON when heater is ON and conditions are safe ──
+      - conditions:
+          - condition: state
+            entity_id: switch.tbh_grzalka_odwrocony
+            state: "on"
+          - condition: numeric_state
+            entity_id: sensor.deye_sun_12k_battery
+            above: 95
+          - condition: numeric_state
+            entity_id: sensor.deye_sun_12k_grid_power
+            below: 300
+          - condition: numeric_state
+            entity_id: sensor.heatpump_water_tank_temperature_t5
+            below: 70
+        sequence:
+          - target:
+              entity_id: switch.tbh_grzalka_odwrocony
+            action: switch.turn_on
+
+      # ── TURN OFF with 5 minute delay ───────────────────────
+      - conditions:
+          - condition: state
+            entity_id: switch.tbh_grzalka_odwrocony
+            state: "on"
+        sequence:
+          - delay: "00:05:00"
+          - choose:
+              - conditions:
+                  - condition: numeric_state
+                    entity_id: sensor.deye_sun_12k_battery
+                    above: 95
+                  - condition: numeric_state
+                    entity_id: sensor.deye_sun_12k_grid_power
+                    below: 300
+                  - condition: numeric_state
+                    entity_id: sensor.heatpump_water_tank_temperature_t5
+                    below: 70
+                sequence:
+                  - target:
+                      entity_id: switch.tbh_grzalka_odwrocony
+                    action: switch.turn_on
+            default:
+              - target:
+                  entity_id: switch.tbh_grzalka_odwrocony
+                action: switch.turn_off
+    default: []
