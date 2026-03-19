@@ -98,14 +98,14 @@ Every minute (+ immediately on temperature trigger):
 
 ## Automation File
 
-→ [`level1_tbh_heater.yaml`](level1_tbh_heater.yaml)
+→ [`tbh_heater_pv_surplus.yaml`](tbh_heater_pv_surplus.yaml)
 
 ### Installation
 
 1. Open Home Assistant
 2. **Settings → Automations → Create Automation**
 3. Click three dots `⋮` → **Edit in YAML**
-4. Paste the contents of `level1_tbh_heater.yaml`
+4. Paste the contents of `tbh_heater_pv_surplus.yaml`
 5. Click **Save**
 
 ### Post-installation Verification
