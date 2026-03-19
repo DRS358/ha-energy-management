@@ -23,6 +23,7 @@ Instead of exporting surplus PV energy to the grid, it is consumed locally for d
 | Energy storage | 10 kWh, min SoC 15% | — | — |
 | Boiler heater | TBH Heater 2.9 kW | Zigbee (TNCE RMDZB-1PNL63) | — |
 | Energy meter | TNCE RMDZB-1PNL63 | Zigbee2MQTT | — |
+| Heat pump (DHW temp source) | Kaisai Arctic KHC-10RY3-B | Modbus RS485 / ESPHome | [Mosibi ESPHome](https://github.com/Mosibi/Midea-heat-pump-ESPHome) |
 
 ---
 
@@ -36,11 +37,13 @@ Instead of exporting surplus PV energy to the grid, it is consumed locally for d
 | Grid power | `sensor.deye_sun_12k_grid_power` | Negative = export [W] |
 | Heater switch | `switch.tbh_grzalka_odwrocony` | Inverted logic (OFF = turn on) |
 | Heater energy | `sensor.tbh_grzalka_energy` | Energy counter kWh [total_increasing] |
-| DHW temperature | `sensor.heatpump_water_tank_temperature_t5` | Boiler water temperature [°C] |
+| DHW temperature | `sensor.heatpump_water_tank_temperature_t5` | Tank water temperature read from Kaisai heat pump via Mosibi ESPHome [°C] |
 
 > **Note:** `switch.tbh_grzalka_odwrocony` is a helper entity with inverted logic —
 > the physical switch `switch.tbh_grzalka` works in reverse (OFF = heater ON).
 > Deye entities are provided by the [ha-solarman](https://github.com/davidrapan/ha-solarman) integration.
+> DHW tank temperature `sensor.heatpump_water_tank_temperature_t5` is read from the
+> **Kaisai Arctic KHC-10RY3-B** heat pump via [Mosibi ESPHome](https://github.com/Mosibi/Midea-heat-pump-ESPHome) (Modbus RS485).
 
 ---
 
@@ -167,6 +170,7 @@ utility_meter:
 | Integration | Description | Link |
 |---|---|---|
 | ha-solarman | Deye SUN 12k inverter control | [github.com/davidrapan/ha-solarman](https://github.com/davidrapan/ha-solarman) |
+| Mosibi ESPHome | Kaisai Arctic heat pump — provides DHW tank temperature via Modbus RS485 | [github.com/Mosibi/Midea-heat-pump-ESPHome](https://github.com/Mosibi/Midea-heat-pump-ESPHome) |
 
 ---
 
